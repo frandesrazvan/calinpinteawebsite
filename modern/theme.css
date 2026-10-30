@@ -1,0 +1,16 @@
+/* D · Modern — vișiniu */
+:root{
+  --bg:#FFFFFF;--card:#FFFFFF;--soft:#F7F1F1;--ink:#22191B;--head-ink:#22191B;--muted:#6A5D60;
+  --line:#EFE3E5;--line-strong:#DCC9CD;--accent:#6B1F2E;--accent-hover:#4A1420;--accent-ink:#FFFFFF;
+  --head-font:'Lora',Georgia,serif;--body-font:'Nunito Sans',system-ui,sans-serif;--head-weight:700;--brand-weight:700;--brand-size:25px;--tag-display:block;
+  --radius:14px;--btn-radius:999px;--wrap:1200px;
+  --header-bg:#FFFFFF;--footer-bg:#3A1019;--footer-ink:#E8CDD2;--footer-head:#FFFFFF;--footer-link:#FFFFFF;--footer-line:#3A1019;
+  --nav-ink:#22191B;--nav-weight:700;
+  --eyebrow-weight:800;--eyebrow-size:15px;
+  --card-border:1px solid #EFE3E5;
+  --field-radius:8px;
+}
+.s-page-hero{background:#6B1F2E;color:#fff;padding:80px 0 64px;margin-bottom:48px}
+.s-page-hero .s-h1{color:#fff}
+.s-page-hero .s-lead{color:#F2DDE1}
+.s-page-hero .s-eyebrow{color:#F2DDE1}

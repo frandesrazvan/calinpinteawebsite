@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ro" data-design="original" data-page="contact" data-root="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Contact</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef1ec;
+      color: #1f1f1f;
+      min-height: 100vh;
+    }
+
+    /* =========================
+       MENIU
+    ========================= */
+
+    .navbar-wrapper {
+      width: min(96%, 1660px);
+      margin: 16px auto 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border-radius: 60px;
+      padding: 14px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #000000;
+      font-size: clamp(18px, 1.4vw, 28px);
+      font-weight: 500;
+      padding: 22px 28px;
+      border-radius: 18px;
+      transition: background 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #f4f4f4;
+    }
+
+    .arrow {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 8px solid #000000;
+      margin-top: 4px;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #f5f5f5;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: #1d1d1d;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+
+    /* =========================
+       FORMULAR CONTACT
+    ========================= */
+
+    .contact-section {
+      width: min(88%, 1060px);
+      margin: 58px auto;
+    }
+
+    .contact-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .form-control {
+      width: 100%;
+      height: 78px;
+      border: 1px solid #d9ded7;
+      border-radius: 999px;
+      background: #ffffff;
+      padding: 0 40px;
+      font-size: 22px;
+      color: #1f1f1f;
+      outline: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control::placeholder {
+      color: #5f6f86;
+      opacity: 1;
+    }
+
+    .form-control:focus {
+      border-color: #2f806f;
+      box-shadow: 0 0 0 3px rgba(47, 128, 111, 0.16);
+    }
+
+    textarea.form-control {
+      height: 112px;
+      resize: vertical;
+      border-radius: 48px;
+      padding-top: 28px;
+      line-height: 1.4;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .button-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 14px;
+    }
+
+    .submit-btn {
+      border: none;
+      background: #2f806f;
+      color: #ffffff;
+      min-width: 232px;
+      height: 82px;
+      padding: 0 42px;
+      border-radius: 999px;
+      font-size: 22px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      background: #287363;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+
+
+    .status-message {
+      display: none;
+      width: 100%;
+      border-radius: 24px;
+      padding: 18px 24px;
+      font-size: 18px;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .status-message.is-visible {
+      display: block;
+    }
+
+    .status-message.is-success {
+      background: #e6f6ee;
+      color: #195d3a;
+      border: 1px solid #b7e4ca;
+    }
+
+    .status-message.is-error {
+      background: #fff0f0;
+      color: #8a1f1f;
+      border: 1px solid #efc4c4;
+    }
+
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    /* =========================
+       TABLETĂ
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .navbar-wrapper {
+        width: 92%;
+        margin-top: 22px;
+      }
+
+      .navbar {
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-radius: 32px;
+      }
+
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+        padding: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        display: none;
+      }
+
+      .nav-menu a {
+        justify-content: space-between;
+        font-size: 20px;
+        padding: 16px 18px;
+      }
+
+      .menu-toggle:checked ~ .nav-menu {
+        display: flex;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      .contact-section {
+        width: 88%;
+        margin-top: 44px;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .form-control {
+        height: 70px;
+        font-size: 20px;
+        padding: 0 32px;
+      }
+
+      textarea.form-control {
+        height: 130px;
+        padding-top: 24px;
+        border-radius: 36px;
+      }
+
+      .submit-btn {
+        height: 72px;
+        min-width: 220px;
+        font-size: 20px;
+      }
+    }
+
+    /* =========================
+       TELEFON MOBIL
+    ========================= */
+
+    @media (max-width: 560px) {
+      .navbar-wrapper {
+        width: 94%;
+        margin-top: 18px;
+      }
+
+      .navbar {
+        border-radius: 26px;
+        padding: 12px 14px;
+      }
+
+      .hamburger {
+        width: 42px;
+        height: 42px;
+      }
+
+      .nav-menu {
+        border-radius: 24px;
+        padding: 12px;
+      }
+
+      .nav-menu a {
+        font-size: 18px;
+        padding: 14px 16px;
+      }
+
+      .contact-section {
+        width: 90%;
+        margin: 34px auto 48px;
+      }
+
+      .contact-form {
+        gap: 16px;
+      }
+
+      .form-control {
+        height: 62px;
+        font-size: 18px;
+        padding: 0 24px;
+        border-radius: 32px;
+      }
+
+      textarea.form-control {
+        height: 140px;
+        padding-top: 22px;
+        border-radius: 30px;
+      }
+
+      .button-wrap {
+        margin-top: 10px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        max-width: 260px;
+        height: 66px;
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar-wrapper">
+    <nav class="navbar">
+
+      <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+      <label for="menu-toggle" class="hamburger" aria-label="Deschide meniul">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-menu">
+        <li><a href="index.html">Acasă</a></li>
+        <li><a href="interviuri.html">Interviuri</a></li>
+        <li><a href="carte.html">Lansări de carte</a></li>
+        <li><a href="Simpozioane.html">Simpozioane - Conferințe</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+
+    </nav>
+  </header>
+
+  <section class="contact-section">
+    <div id="formStatus" class="status-message" role="status" aria-live="polite"></div>
+
+    <form class="contact-form" action="send.php" method="post" accept-charset="UTF-8">
+
+      <div class="hp-field" aria-hidden="true">
+        <label for="website">Nu completa acest câmp</label>
+        <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="form-row">
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          placeholder="Nume"
+          aria-label="Nume"
+          autocomplete="name"
+          maxlength="120"
+          required
+        >
+
+        <input
+          class="form-control"
+          type="email"
+          name="email"
+          placeholder="Email"
+          aria-label="Email"
+          autocomplete="email"
+          maxlength="160"
+          required
+        >
+      </div>
+
+      <input
+        class="form-control"
+        type="tel"
+        name="phone"
+        placeholder="Telefon"
+        aria-label="Telefon"
+        autocomplete="tel"
+        maxlength="40"
+      >
+
+      <textarea
+        class="form-control"
+        name="message"
+        placeholder="Mesaj"
+        aria-label="Mesaj"
+        minlength="10"
+        maxlength="3000"
+        required
+      ></textarea>
+
+      <div class="button-wrap">
+        <button class="submit-btn" type="submit">
+          Trimite mesajul
+        </button>
+      </div>
+
+    </form>
+  </section>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('sent') || ((location.hash.match(/sent=(\d)/) || [])[1]);
+    const statusBox = document.getElementById('formStatus');
+
+    if (statusBox && status === '1') {
+      statusBox.textContent = 'Mesajul a fost trimis. Vă mulțumim!';
+      statusBox.classList.add('is-visible', 'is-success');
+    }
+
+    if (statusBox && status === '0') {
+      statusBox.textContent = 'Mesajul nu a putut fi trimis. Verificați datele introduse sau încercați din nou mai târziu.';
+      statusBox.classList.add('is-visible', 'is-error');
+    }
+  </script>
+
+  <script>
+    /* Replică: pe site-ul real formularul trimite la send.php, care întoarce la contact.html?sent=1.
+       Aici simulăm același drum, fără server. */
+    document.querySelector('.contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var hp = document.getElementById('website');
+      var ok = !(hp && hp.value);
+      location.href = 'contact.html?sent=' + (ok ? 1 : 0) + '#sent=' + (ok ? 1 : 0);
+      if (location.search.indexOf('sent=') !== -1) { location.reload(); }
+    });
+  </script>
+  <script src="assets/switcher.js" defer></script>
+</body>
+</html>

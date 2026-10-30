@@ -1,0 +1,14 @@
+/* A · Candelă — întunecat, auriu */
+:root{
+  --bg:#121318;--card:#1A1C23;--soft:#16171D;--ink:#EDE6D6;--head-ink:#EDE6D6;--muted:#ABA597;
+  --line:#2C2E36;--line-strong:#3A3C45;--accent:#C9A75E;--accent-hover:#E2C78A;--accent-ink:#121318;--focus:#E2C78A;
+  --head-font:'Cormorant Garamond',Georgia,serif;--body-font:Manrope,system-ui,sans-serif;--head-weight:500;--brand-weight:500;--brand-size:30px;
+  --radius:4px;--btn-radius:999px;--wrap:1240px;
+  --header-bg:#121318;--footer-bg:#121318;--footer-ink:#ABA597;--footer-head:#EDE6D6;--footer-link:#C9A75E;
+  --nav-ink:#EDE6D6;--nav-weight:500;
+  --eyebrow-size:13px;--eyebrow-track:.18em;--eyebrow-case:uppercase;--eyebrow-weight:600;
+  --field-bg:#121318;--field-ink:#EDE6D6;--field-line:#3A3C45;--field-radius:4px;
+  --card-border:1px solid #2C2E36;--ok-bg:#1F2A22;--ok-ink:#BFE3C8;
+  --article-font:'Cormorant Garamond',Georgia,serif;--article-size:22px;
+}
+.s-quote p{color:#D8D0BF}

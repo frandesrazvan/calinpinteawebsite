@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ro" data-design="original" data-page="home" data-root="">
+<head>
+  
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+<meta name="google-site-verification" content="kBJB1krDTecTgy4Ccs_LsqUKDTCgqVOo2k6S4OukaY" />
+ 
+<title>Calin Pintea - Site Oficial | Scriitor și Autor</title>
+ 
+<meta name="description" content="Siteul oficial al scriitorului Calin Pintea. Cărți, articole, activitate culturală, lansări editoriale și informații despre autor.">
+ 
+<meta name="keywords" content="Calin Pintea, scriitor, autor român, cărți, Dor de Athos, Flori de dor, Terapia prin Cultură, literatura română">
+ 
+<meta name="author" content="Calin Pintea">
+ 
+<meta name="robots" content="index, follow">
+ 
+<link rel="canonical" href="https://calinpintea.ro/" />
+  
+  <!-- Date structurate -->
+<script type="application/ld+json">
+{
+"@context": "https://schema.org",
+"@type": "Person",
+"name": "Calin Pintea",
+"url": "https://calinpintea.ro",
+"jobTitle": "Scriitor",
+"description": "Autor român și promotor cultural.",
+"image": "https://calinpintea.ro/images/calin-pintea.jpg"
+}
+</script>
+  
+  
+  
+  
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef1ec;
+      color: #1f1f1f;
+      min-height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar-wrapper {
+      width: min(88%, 1500px);
+      margin: 32px auto 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border-radius: 60px;
+      padding: 14px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #1d1d1d;
+      font-size: clamp(18px, 1.4vw, 24px);
+      font-weight: 500;
+      padding: 20px 24px;
+      border-radius: 18px;
+      transition: background 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #f5f5f5;
+    }
+
+    .arrow {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 8px solid #1d1d1d;
+      margin-top: 4px;
+    }
+
+    /* Buton hamburger */
+    .menu-toggle {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #f5f5f5;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: #1d1d1d;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      width: min(82%, 1400px);
+      margin: 52px auto 80px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: clamp(40px, 5vw, 80px);
+      align-items: start;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(30px, 3vw, 42px);
+      line-height: 1.15;
+      margin-bottom: 40px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-text p {
+      font-size: clamp(18px, 1.5vw, 21px);
+      line-height: 1.35;
+      color: #333333;
+      margin-bottom: 28px;
+      max-width: 850px;
+    }
+
+    .details {
+      font-size: clamp(18px, 1.5vw, 21px);
+      line-height: 1.36;
+      color: #333333;
+      max-width: 850px;
+      font-style: italic;
+    }
+
+    .details strong {
+      font-weight: 800;
+      font-style: italic;
+    }
+
+    .hero-image {
+      width: 100%;
+    }
+
+    .hero-image img {
+      width: 100%;
+      min-height: 360px;
+      max-height: 680px;
+      border-radius: 30px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* =========================
+       TABLETĂ
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .navbar-wrapper {
+        width: 92%;
+      }
+
+      .navbar {
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-radius: 32px;
+      }
+
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+        padding: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        display: none;
+      }
+
+      .nav-menu a {
+        justify-content: space-between;
+        font-size: 20px;
+        padding: 16px 18px;
+      }
+
+      .menu-toggle:checked ~ .nav-menu {
+        display: flex;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      .hero {
+        width: 88%;
+        grid-template-columns: 1fr;
+        gap: 38px;
+      }
+
+      .hero-image {
+        order: -1;
+      }
+
+      .hero-image img {
+        max-height: 520px;
+      }
+    }
+
+    /* =========================
+       TELEFON MOBIL
+    ========================= */
+
+    @media (max-width: 700px) {
+      .navbar-wrapper {
+        width: 94%;
+        margin-top: 18px;
+      }
+
+      .navbar {
+        border-radius: 26px;
+        padding: 12px 14px;
+      }
+
+      .hamburger {
+        width: 42px;
+        height: 42px;
+      }
+
+      .nav-menu {
+        border-radius: 24px;
+        padding: 12px;
+      }
+
+      .nav-menu a {
+        font-size: 18px;
+        padding: 14px 16px;
+      }
+
+      .hero {
+        width: 90%;
+        margin: 34px auto 56px;
+        gap: 30px;
+      }
+
+      .hero-text h1 {
+        font-size: 30px;
+        margin-bottom: 26px;
+      }
+
+      .hero-text p,
+      .details {
+        font-size: 17px;
+        line-height: 1.45;
+      }
+
+      .hero-text p {
+        margin-bottom: 24px;
+      }
+
+      .hero-image img {
+        min-height: 260px;
+        max-height: 360px;
+        border-radius: 22px;
+      }
+    }
+
+    /* =========================
+       TELEFOANE FOARTE MICI
+    ========================= */
+
+    @media (max-width: 420px) {
+      .hero {
+        width: 92%;
+      }
+
+      .hero-text h1 {
+        font-size: 27px;
+      }
+
+      .hero-text p,
+      .details {
+        font-size: 16px;
+      }
+
+      .hero-image img {
+        min-height: 230px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar-wrapper">
+    <nav class="navbar">
+
+      <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+      <label for="menu-toggle" class="hamburger" aria-label="Deschide meniul">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-menu">
+        <li><a href="index.html" class="active">Acasă</a></li>
+        <li><a href="interviuri.html">Interviuri</a></li>
+        <li><a href="carte.html">Lansări de carte</a></li>
+        <li><a href="Simpozioane.html">Simpozioane - Conferințe</a></li>
+        <li><a href="https://blackswanpublishing.ro/book-author/calin-pintea/" target="_blank" rel="noopener noreferrer">Comandă carte</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+    </nav>
+  </header>
+
+  <main class="hero">
+
+    <section class="hero-text">
+      <h1>Acasă, statornicii, vitralii</h1>
+
+      <p style="text-align: justify;">
+        Născut pe la mijlocul anilor ’60 (care secol, n-are importanță),
+        într-o zodie pe cale de dispariție (a celor care mai cred în educație
+        și cultură), T.C.M.-ist eșuat pe țărmuri literare, cu aptitudini și
+        calități într-o dulce suferință, așterne pe hârtie poeme, eseuri,
+        beletristică, teatru, foc viu din configurații spirituale și le face
+        cuib între coperte. În rest...mult prea puțin.
+      </p>
+
+      <div class="details" style="text-align: justify;">
+        <strong>Afinități:</strong> biblioteci, muzee și văpăile Sfântului Munte Athos.<br>
+        <strong>Juruințe:</strong> prietenia, empatia, dăruirea.<br>
+        <strong>Înrădăcinări:</strong> picătura de cultură, pelerinajele, rugăciunea la ceas de seară.<br>
+        <strong>Fidelități:</strong> Janis și Freddie, Nichita și Esenin, Noica, De Niro, dar...Caravaggio înaintea tuturor.<br>
+        <strong>Colecții personale:</strong> biroul cu vreo 8500 de volume, unele mărturisiri de taină și câțiva prieteni numai buni de pus pe rană.<br>
+        <strong>Preferințe:</strong> muntele, nu marea, vinul roșu, nu berea; intimitățile, nu congestia umană.<br>
+        <strong>Nostalgii, melancolii:</strong> Costineștiul, studenția, focul de tabără.<br>
+        <strong>Nevroze:</strong> timpul tot mai scurt pentru...toate, superficialitatea, Liverpool (ah, fotbalul, bată-l vina).<br>
+        <strong>Top 3 cărți favorite:</strong> Agonie și extaz, Jurnalul fericirii, Maestrul și...de ce nu top 300?
+      </div>
+    </section>
+
+    <section class="hero-image">
+      <img src="imagini/000.webp" alt="Pană de scris, pergament și lumânare">
+    </section>
+
+  </main>
+
+  <script src="assets/switcher.js" defer></script>
+</body>
+</html>

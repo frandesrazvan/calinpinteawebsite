@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="ro" data-design="original" data-page="lansari" data-root="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Lansare de carte</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef1ec;
+      color: #1f1f1f;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* =========================
+       MENIU
+    ========================= */
+
+    .navbar-wrapper {
+      width: min(88%, 1500px);
+      margin: 32px auto 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border-radius: 60px;
+      padding: 14px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .nav-menu li {
+      position: relative;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #1d1d1d;
+      font-size: clamp(18px, 1.4vw, 24px);
+      font-weight: 500;
+      padding: 20px 24px;
+      border-radius: 18px;
+      transition: background 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #f5f5f5;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #f5f5f5;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: #1d1d1d;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+
+    /* =========================
+       PAGINA LANSARE DE CARTE
+    ========================= */
+
+    .events-title {
+      width: min(88%, 1500px);
+      margin: 18px auto 12px;
+    }
+
+    .events-title h2 {
+      font-size: clamp(24px, 2.1vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .events-title p {
+      margin-top: 4px;
+      font-size: clamp(14px, 1.05vw, 18px);
+      color: #333333;
+    }
+
+    .events-section {
+      width: min(96%, 1700px);
+      height: calc(100vh - 218px);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .events-carousel {
+      height: 100%;
+      display: flex;
+      align-items: stretch;
+      gap: 26px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-behavior: smooth;
+      padding: 0 22px 10px;
+      scrollbar-width: thin;
+    }
+
+    .events-carousel::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .events-carousel::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 999px;
+    }
+
+    .event-card {
+      flex: 0 0 430px;
+      height: 100%;
+      background: #ffffff;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .event-card.is-square {
+      flex-basis: 430px;
+    }
+
+    .event-card.is-landscape {
+      flex-basis: 520px;
+    }
+
+    .event-card.is-portrait {
+      flex-basis: 390px;
+    }
+
+    .event-card.is-poster {
+      flex: 0 0 var(--poster-card-width, clamp(280px, 32vw, 430px));
+      width: var(--poster-card-width, clamp(280px, 32vw, 430px));
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .event-image {
+      width: 100%;
+      flex: 1 1 auto;
+      min-height: 0;
+      background: #ffffff;
+      overflow: hidden;
+      border-radius: 28px 28px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .event-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-position: center;
+      background: #ffffff;
+    }
+
+    /*
+      Regula:
+      - afișele / imaginile aproape pătrate se văd integral;
+      - fotografiile normale umplu complet spațiul cardului.
+    */
+
+    .event-card.is-square .event-image {
+      padding: 10px;
+    }
+
+    .event-card.is-poster .event-image {
+      padding: 0;
+      background: transparent;
+    }
+
+    .event-card.is-square .event-image img,
+    .event-card.is-poster .event-image img {
+      object-fit: contain;
+    }
+
+    .event-card.is-poster .event-image img {
+      background: transparent;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .event-card.is-poster .event-info {
+      border-radius: 0 0 28px 28px;
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.08);
+    }
+
+    .event-card.is-landscape .event-image img,
+    .event-card.is-portrait .event-image img {
+      object-fit: cover;
+    }
+
+    .event-info {
+      flex: 0 0 auto;
+      padding: 14px 20px 18px;
+      min-height: 82px;
+      background: #ffffff;
+    }
+
+    .event-info h2 {
+      font-size: clamp(17px, 1.2vw, 21px);
+      line-height: 1.18;
+      font-weight: 800;
+      color: #202020;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 54px;
+      height: 54px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      color: #333333;
+      font-size: 36px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 5;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .carousel-btn:hover {
+      background: #ffffff;
+      transform: translateY(-50%) scale(1.04);
+    }
+
+    .carousel-btn.prev {
+      left: 10px;
+    }
+
+    .carousel-btn.next {
+      right: 10px;
+    }
+
+    /* =========================
+       TABLETĂ
+    ========================= */
+
+    @media (max-width: 1100px) {
+      .navbar-wrapper {
+        width: 92%;
+      }
+
+      .navbar {
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-radius: 32px;
+      }
+
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+        padding: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        display: none;
+      }
+
+      .nav-menu a {
+        justify-content: space-between;
+        font-size: 20px;
+        padding: 16px 18px;
+      }
+
+      .menu-toggle:checked ~ .nav-menu {
+        display: flex;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      .events-title {
+        width: 90%;
+        margin-top: 16px;
+        margin-bottom: 10px;
+      }
+
+      .events-section {
+        width: 94%;
+        height: calc(100vh - 204px);
+      }
+
+      .events-carousel {
+        gap: 20px;
+        padding: 0 16px 10px;
+      }
+
+      .event-card,
+      .event-card.is-square {
+        flex-basis: 370px;
+      }
+
+      .event-card.is-landscape {
+        flex-basis: 450px;
+      }
+
+      .event-card.is-portrait {
+        flex-basis: 340px;
+      }
+
+      .event-card.is-poster {
+        flex: 0 0 var(--poster-card-width, clamp(260px, 38vw, 400px));
+        width: var(--poster-card-width, clamp(260px, 38vw, 400px));
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .event-info {
+        padding: 12px 18px 15px;
+        min-height: 76px;
+      }
+
+      .event-info h2 {
+        font-size: 18px;
+      }
+
+      .carousel-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 31px;
+      }
+    }
+
+    /* =========================
+       TELEFON MOBIL
+    ========================= */
+
+    @media (max-width: 700px) {
+      .navbar-wrapper {
+        width: 94%;
+        margin-top: 18px;
+      }
+
+      .navbar {
+        border-radius: 26px;
+        padding: 12px 14px;
+      }
+
+      .hamburger {
+        width: 42px;
+        height: 42px;
+      }
+
+      .nav-menu {
+        border-radius: 24px;
+        padding: 12px;
+      }
+
+      .nav-menu a {
+        font-size: 18px;
+        padding: 14px 16px;
+      }
+
+      .events-title {
+        width: 90%;
+        margin-top: 14px;
+        margin-bottom: 8px;
+      }
+
+      .events-title h2 {
+        font-size: 24px;
+      }
+
+      .events-title p {
+        font-size: 14px;
+        line-height: 1.25;
+      }
+
+      .events-section {
+        width: 100%;
+        height: calc(100vh - 188px);
+      }
+
+      .events-carousel {
+        gap: 16px;
+        padding: 0 16px 10px;
+        scroll-snap-type: x mandatory;
+      }
+
+      .event-card,
+      .event-card.is-landscape,
+      .event-card.is-portrait,
+      .event-card.is-square,
+      .event-card.is-poster {
+        flex: 0 0 86%;
+        border-radius: 24px;
+        scroll-snap-align: center;
+      }
+
+      .event-card.is-poster {
+        flex: 0 0 var(--poster-card-width, min(76vw, 430px));
+        width: var(--poster-card-width, min(76vw, 430px));
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .event-image {
+        border-radius: 24px 24px 0 0;
+      }
+
+      .event-card.is-square .event-image {
+        padding: 8px;
+      }
+
+      .event-card.is-poster .event-image {
+        padding: 0;
+        background: transparent;
+      }
+
+      .event-card.is-poster .event-info {
+        border-radius: 0 0 24px 24px;
+      }
+
+      .event-info {
+        padding: 12px 16px 14px;
+        min-height: 72px;
+      }
+
+      .event-info h2 {
+        font-size: 17px;
+      }
+
+      .carousel-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 28px;
+      }
+
+      .carousel-btn.prev {
+        left: 7px;
+      }
+
+      .carousel-btn.next {
+        right: 7px;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .navbar-wrapper {
+        margin-top: 8px;
+      }
+
+      .navbar {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+
+      .nav-menu a {
+        padding-top: 11px;
+        padding-bottom: 11px;
+      }
+
+      .events-title {
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
+
+      .events-title p {
+        display: none;
+      }
+
+      .events-section {
+        height: calc(100vh - 132px);
+      }
+
+      .event-info {
+        min-height: 62px;
+        padding: 10px 16px 12px;
+      }
+
+      .event-info h2 {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar-wrapper">
+    <nav class="navbar">
+
+      <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+      <label for="menu-toggle" class="hamburger" aria-label="Deschide meniul">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-menu">
+        <li><a href="index.html">Acasă</a></li>
+        <li><a href="interviuri.html">Interviuri</a></li>
+        <li><a href="carte.html" class="active">Lansări de carte</a></li>
+        <li><a href="Simpozioane.html">Simpozioane - Conferințe</a></li>
+        <li><a href="https://blackswanpublishing.ro/book-author/calin-pintea/" target="_blank" rel="noopener noreferrer">Comandă carte</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+    </nav>
+  </header>
+
+  <section class="events-title">
+    <h2>Lansare de carte</h2>
+    <p>Galerie cu lansări de carte, întâlniri cu cititorii și momente editoriale.</p>
+  </section>
+
+  <main class="events-section">
+    <div class="carousel-wrapper">
+
+      <button class="carousel-btn prev" type="button" aria-label="Derulează stânga">
+        &#8249;
+      </button>
+
+      <div class="events-carousel" id="eventsCarousel">
+	  
+
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/001.webp"
+              alt="Lansare carte „Flori de dor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Flori de dor”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-002.jpg"
+              alt="Lansare carte „Flori de dor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Flori de dor”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/003.webp"
+              alt="Lansare carte „Flori de dor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Flori de dor”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/004.webp"
+              alt="Lansare carte „Flori de dor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Flori de dor”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/005.webp"
+              alt="Lansare carte „Flori de dor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Flori de dor”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-006.jpg"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”, ediții bilingve cu traduceri în limbile engleză, franceză, germană, spaniolă, italiană și maghiară</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/007.webp"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/008.webp"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-009.jpg"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-010.jpg"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/011.webp"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/012.webp"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-013.jpg"
+              alt="Lansare carte „Terapia prin cultură”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/014.webp"
+              alt="Lansare carte „Terapia prin cultură”,  Bookfest București"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”,  Bookfest București</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/015.webp"
+              alt="Lansare carte „Terapia prin cultură”,  Bookfest București"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Terapia prin cultură”,  Bookfest București</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/016.webp"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/017.webp"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-018.jpg"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-019.jpg"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-020.jpg"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/021.webp"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/022.webp"
+              alt="Lansare carte „Dor de Athos”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/023.webp"
+              alt="Lansare carte „Dor de Athos”, Gaudeamus Sibiu"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”, Gaudeamus Sibiu</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/024.webp"
+              alt="Lansare carte „Dor de Athos”, Gaudeamus Sibiu"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Dor de Athos”, Gaudeamus Sibiu</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/025.webp"
+              alt="Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/026.webp"
+              alt="Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/027.webp"
+              alt="Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/028.webp"
+              alt="Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/029.webp"
+              alt="Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte Un crin al iubirii de Hristos”, Târgu Mureș</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/030.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos” Parohia Ortodoxă Benidorm, Spania"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos” Parohia Ortodoxă Benidorm, Spania</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/031.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos” Parohia Ortodoxă Benidorm, Spania"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos” Parohia Ortodoxă Benidorm, Spania</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/032.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Benidorm, Spania"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Benidorm, Spania</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/033.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Benidorm, Spania"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Benidorm, Spania</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/034.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Benidorm, Spania"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Benidorm, Spania</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/035.webp"
+              alt="Lansare carte „Un crin al iubierii de Hristos”, Parohia Ortodoxă, Dublin"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubierii de Hristos”, Parohia Ortodoxă, Dublin</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/036.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Dublin"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos”, Parohia Ortodoxă Dublin</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/037.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos”, Mănăstirea Hristos Pantocrator"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos”, Mănăstirea Hristos Pantocrator</h2>
+          </div>
+        </article>		
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/038.webp"
+              alt="Lansare carte „Un crin al iubirii de Hristos”, Mănăstirea Hristos Pantocrator"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Un crin al iubirii de Hristos”, Mănăstirea Hristos Pantocrator</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-039.jpg"
+              alt="Lansare carte „Trepte spre cer”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/040.webp"
+              alt="Lansare carte „Trepte spre cer”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-041.jpg"
+              alt="Lansare carte „Trepte spre cer”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/042.webp"
+              alt="Lansare carte „Trepte spre cer”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/043.webp"
+              alt="Lansare carte „Trepte spre cer”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/044.webp"
+              alt="Lansare carte „Trepte spre cer”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/045.webp"
+              alt="Lansare carte „Trepte spre cer” Mănăstirea Acoperământul Maicii Domnului"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Trepte spre cer” Mănăstirea Acoperământul Maicii Domnului</h2>
+          </div>
+        </article>
+		
+				<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-046.jpg"
+              alt="Lansare carte ”Trepte spre cer”, Mănăstirea Acoperământul Maicii Domnului"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte ”Trepte spre cer”, Mănăstirea Acoperământul Maicii Domnului</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/047.webp"
+              alt="Lansare de carte și premiera piesei de teatru „Lacrimile lui Moș Crăciun”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare de carte și premiera piesei de teatru „Lacrimile lui Moș Crăciun”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/048.webp"
+              alt="Lansare de carte și premiera piesei de teatru „Lacrimile lui Moș Crăciun”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare de carte și premiera piesei de teatru „Lacrimile lui Moș Crăciun”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/049.webp"
+              alt="Lansare de carte și premiera piesei de teatru „Lacrimile lui Moș Crăciun”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare de carte și premiera piesei de teatru „Lacrimile lui Moș Crăciun”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-050.jpg"
+              alt="Lansare carte „Despre Inteligență ca rană”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Despre Inteligență ca rană”</h2>
+          </div>
+        </article>
+				
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/051.webp"
+              alt="Lansare carte „Despre Inteligență ca rană”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Despre Inteligență ca rană”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/052.webp"
+              alt="Lansare carte „Despre Inteligență ca rană”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Despre Inteligență ca rană”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-053.jpg"
+              alt="Lansare de carte „ 8 Marturisiri de dragoste”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare de carte „ 8 Marturisiri de dragoste”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-054.jpg"
+              alt="Lansare carte „8 Mărturisiri de dragoste”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „8 Mărturisiri de dragoste”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/055.webp"
+              alt="Lansare carte „8 Mărturisiri de dragoste”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „8 Mărturisiri de dragoste”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-056.jpg"
+              alt="Lansare carte „8 Mărturisiri de dragoste”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „8 Mărturisiri de dragoste”</h2>
+          </div>
+        </article>
+		
+		
+		
+	
+		
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+       
+
+      
+		
+	
+		
+
+		
+		
+		<!-- <article class="event-card"> 
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/Lansare carte „Lumina din spatele gratiilor” 1.pdf"
+              alt="Lansare carte „Lumina din spatele gratiilor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte „Lumina din spatele gratiilor”</h2>
+          </div>
+        </article>-->
+		
+		
+		
+	
+		
+
+		
+		
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-057.jpg"
+              alt="Lansare carte ,,Lumina din spatele gratiilor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte ,,Lumina din spatele gratiilor”</h2>
+          </div>
+        </article>
+		
+		<article class="event-card">
+          <div class="event-image">
+            <img
+              loading="lazy"
+              decoding="async"
+              src="imagini/lipsa-058.jpg"
+              alt="Lansare carte ,,Lumina din spatele gratiilor”"
+            >
+          </div>
+
+          <div class="event-info">
+            <h2>Lansare carte ,,Lumina din spatele gratiilor”</h2>
+          </div>
+        </article>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+      </div>
+
+      <button class="carousel-btn next" type="button" aria-label="Derulează dreapta">
+        &#8250;
+      </button>
+
+    </div>
+  </main>
+
+  <script>
+    const carousel = document.getElementById("eventsCarousel");
+    const prevBtn = document.querySelector(".carousel-btn.prev");
+    const nextBtn = document.querySelector(".carousel-btn.next");
+
+    function getScrollAmount() {
+      const card = carousel.querySelector(".event-card");
+      const gap = window.innerWidth <= 700 ? 16 : window.innerWidth <= 1100 ? 20 : 26;
+
+      if (!card) {
+        return 400;
+      }
+
+      return card.offsetWidth + gap;
+    }
+
+    nextBtn.addEventListener("click", function () {
+      carousel.scrollBy({
+        left: getScrollAmount(),
+        behavior: "smooth"
+      });
+    });
+
+    prevBtn.addEventListener("click", function () {
+      carousel.scrollBy({
+        left: -getScrollAmount(),
+        behavior: "smooth"
+      });
+    });
+
+    /*
+      Regula:
+      - afișe A4 / postere: se văd integral, iar bara cu titlu are aceeași lățime ca imaginea afișată;
+      - poze landscape / portrait normale: umplu complet cardul.
+    */
+    function getPosterLimits() {
+      const viewport = window.innerWidth;
+
+      if (viewport <= 560) {
+        return {
+          min: Math.min(viewport * 0.62, 320),
+          max: Math.min(viewport * 0.76, 430)
+        };
+      }
+
+      if (viewport <= 1100) {
+        return {
+          min: 260,
+          max: 400
+        };
+      }
+
+      return {
+        min: 280,
+        max: 430
+      };
+    }
+
+    function clampValue(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function updatePosterWidth(card, ratio) {
+      const imageBox = card.querySelector(".event-image");
+
+      if (!imageBox || !ratio) {
+        return;
+      }
+
+      function applyWidth() {
+        const limits = getPosterLimits();
+        const imageHeight = imageBox.clientHeight;
+
+        if (!imageHeight) {
+          return;
+        }
+
+        const posterWidth = Math.round(
+          clampValue(imageHeight * ratio, limits.min, limits.max)
+        );
+
+        card.style.setProperty("--poster-card-width", posterWidth + "px");
+      }
+
+      requestAnimationFrame(function () {
+        applyWidth();
+        requestAnimationFrame(applyWidth);
+      });
+    }
+
+    function setCardLayout(img) {
+      const width = img.naturalWidth;
+      const height = img.naturalHeight;
+      const card = img.closest(".event-card");
+
+      if (!width || !height || !card) {
+        return;
+      }
+
+      const ratio = width / height;
+
+      card.classList.remove("is-landscape", "is-portrait", "is-square", "is-poster");
+      card.style.removeProperty("--poster-card-width");
+
+      if (ratio >= 0.85 && ratio <= 1.15) {
+        card.classList.add("is-square");
+      } else if (ratio > 1.15) {
+        card.classList.add("is-landscape");
+      } else if (ratio <= 0.75) {
+        card.classList.add("is-poster");
+        updatePosterWidth(card, ratio);
+      } else {
+        card.classList.add("is-portrait");
+      }
+    }
+
+    function setAllCardLayouts() {
+      document.querySelectorAll(".event-image img").forEach(function (img) {
+        if (img.complete) {
+          setCardLayout(img);
+        }
+      });
+    }
+
+    document.querySelectorAll(".event-image img").forEach(function (img) {
+      img.addEventListener("load", function () {
+        setCardLayout(img);
+      });
+
+      if (img.complete) {
+        setCardLayout(img);
+      }
+    });
+
+    window.addEventListener("resize", setAllCardLayouts);
+  </script>
+
+  <script src="assets/switcher.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* B · Glas — tipografic, cerneală albastră și roșu */
+:root{
+  --bg:#F7F7F4;--card:#FFFFFF;--soft:#EEEFEA;--ink:#1E2B45;--head-ink:#1E2B45;--muted:#5A6478;
+  --line:#D8DADF;--line-strong:#B9BEC8;--accent:#A8241A;--accent-hover:#861c14;--accent-ink:#FFFFFF;
+  --head-font:'Brygada 1918',Georgia,serif;--body-font:'Brygada 1918',Georgia,serif;--head-weight:400;--brand-weight:500;--brand-size:24px;
+  --radius:0;--btn-radius:0;--wrap:1200px;
+  --header-bg:#F7F7F4;--header-line:transparent;--footer-bg:#1E2B45;--footer-ink:#C9D1E0;--footer-head:#F7F7F4;--footer-line:#1E2B45;
+  --cta-bg:#1E2B45;--cta-hover:#A8241A;--cta-ink:#F7F7F4;
+  --nav-ink:#1E2B45;--nav-weight:400;--nav-size:17px;
+  --eyebrow-style:italic;--eyebrow-weight:400;--eyebrow-size:18px;--eyebrow-ink:#5A6478;
+  --field-radius:0;--line-strong:#B9BEC8;
+  --article-size:20px;
+}
+.s-btn{font-weight:400}
+.s-tab{font-weight:400}

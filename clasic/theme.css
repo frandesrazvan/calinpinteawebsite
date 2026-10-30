@@ -1,0 +1,13 @@
+/* C · Clasic — verde */
+:root{
+  --bg:#FFFFFF;--card:#FFFFFF;--soft:#EEF3EF;--ink:#1B2420;--head-ink:#14241B;--muted:#55625A;
+  --line:#E1E8E3;--line-strong:#B9C7BE;--accent:#1F4A36;--accent-hover:#123024;--accent-ink:#FFFFFF;
+  --head-font:'Playfair Display',Georgia,serif;--body-font:'Source Sans 3',system-ui,sans-serif;--head-weight:600;--brand-weight:700;--brand-size:26px;
+  --radius:10px;--btn-radius:6px;--wrap:1200px;
+  --header-bg:#FFFFFF;--footer-bg:#14241B;--footer-ink:#C9D6CE;--footer-head:#FFFFFF;--footer-link:#FFFFFF;--footer-line:#14241B;
+  --nav-ink:#14241B;--nav-weight:600;
+  --eyebrow-weight:600;--eyebrow-size:16px;
+  --card-shadow:0 1px 2px rgba(20,36,27,.08),0 8px 24px -12px rgba(20,36,27,.18);
+  --field-radius:6px;
+}
+.s-page-hero{background:#EEF3EF;padding-bottom:56px;margin-bottom:40px}

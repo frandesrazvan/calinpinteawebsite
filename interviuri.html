@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ro" data-design="original" data-page="interviuri" data-root="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Interviuri</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef1ec;
+      color: #1f1f1f;
+      min-height: 100vh;
+    }
+
+    .navbar-wrapper {
+      width: min(96%, 1660px);
+      margin: 12px auto 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .navbar {
+      background: #ffffff;
+      border-radius: 60px;
+      padding: 12px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #000000;
+      font-size: clamp(18px, 1.4vw, 27px);
+      font-weight: 500;
+      padding: 18px 28px;
+      border-radius: 18px;
+      transition: background 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+      background: #f4f4f4;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    .hamburger {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #f5f5f5;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 3px;
+      background: #1d1d1d;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+
+    .page-header {
+      width: min(88%, 1200px);
+      margin: 46px auto 24px;
+    }
+
+    .page-header h1 {
+      font-size: clamp(32px, 3vw, 46px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .page-header p {
+      margin-top: 10px;
+      font-size: clamp(17px, 1.4vw, 21px);
+      color: #444444;
+    }
+
+    .interviews-section {
+      width: min(88%, 1200px);
+      margin: 28px auto 70px;
+    }
+
+    .interview-list {
+      list-style: none;
+      display: grid;
+      gap: 16px;
+    }
+
+    .interview-card {
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .interview-card a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      text-decoration: none;
+      color: #1f1f1f;
+      padding: 24px 30px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .interview-card a:hover {
+      background: #f8f8f8;
+    }
+
+    .interview-title {
+      font-size: clamp(19px, 1.5vw, 24px);
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .interview-meta {
+      margin-top: 6px;
+      font-size: 16px;
+      color: #666666;
+    }
+
+    .read-label {
+      flex: 0 0 auto;
+      font-size: 17px;
+      font-weight: 700;
+      color: #2f806f;
+    }
+
+    @media (max-width: 1100px) {
+      .navbar-wrapper {
+        width: 92%;
+        margin-top: 18px;
+      }
+
+      .navbar {
+        justify-content: space-between;
+        padding: 12px 18px;
+        border-radius: 32px;
+      }
+
+      .hamburger {
+        display: flex;
+        margin-left: auto;
+      }
+
+      .nav-menu {
+        position: absolute;
+        top: calc(100% + 14px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border-radius: 28px;
+        box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+        padding: 18px;
+        flex-direction: column;
+        align-items: stretch;
+        display: none;
+        list-style: none;
+      }
+
+      .nav-menu a {
+        justify-content: space-between;
+        font-size: 20px;
+        padding: 16px 18px;
+      }
+
+      .menu-toggle:checked ~ .nav-menu {
+        display: flex;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle:checked + .hamburger span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+
+      .page-header,
+      .interviews-section {
+        width: 90%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .navbar-wrapper {
+        width: 94%;
+        margin-top: 16px;
+      }
+
+      .navbar {
+        border-radius: 26px;
+        padding: 12px 14px;
+      }
+
+      .hamburger {
+        width: 42px;
+        height: 42px;
+      }
+
+      .nav-menu {
+        border-radius: 24px;
+        padding: 12px;
+      }
+
+      .nav-menu a {
+        font-size: 18px;
+        padding: 14px 16px;
+      }
+
+      .page-header {
+        width: 90%;
+        margin-top: 34px;
+      }
+
+      .interviews-section {
+        width: 90%;
+        margin-top: 22px;
+      }
+
+      .interview-card {
+        border-radius: 22px;
+      }
+
+      .interview-card a {
+        display: block;
+        padding: 22px;
+      }
+
+      .interview-title {
+        font-size: 19px;
+      }
+
+      .interview-meta {
+        font-size: 15px;
+      }
+
+      .read-label {
+        display: inline-block;
+        margin-top: 14px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar-wrapper">
+    <nav class="navbar">
+      <input type="checkbox" id="menu-toggle" class="menu-toggle">
+
+      <label for="menu-toggle" class="hamburger" aria-label="Deschide meniul">
+        <span></span>
+        <span></span>
+        <span></span>
+      </label>
+
+      <ul class="nav-menu">
+       <li><a href="index.html">Acasă</a></li>
+        <li><a href="interviuri.html" class="active">Interviuri</a></li>
+        <li><a href="carte.html">Lansări de carte</a></li>
+        <li><a href="Simpozioane.html">Simpozioane - Conferințe</a></li>
+         <li><a href="https://blackswanpublishing.ro/book-author/calin-pintea/" target="_blank" rel="noopener noreferrer">Comandă carte</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="page-header">
+    <h1>Interviuri</h1>
+    <p>Selecție de texte și dialoguri publicate.</p>
+  </section>
+
+  <main class="interviews-section">
+    <ul class="interview-list">
+
+      <li class="interview-card">
+        <a href="interviuri/1-interviu.html">
+          <div>
+            <h2 class="interview-title">Interviu „Trepte spre cer”</h2>
+          </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/2-la-o-sueta-literara.html">
+          <div>
+            <h2 class="interview-title">La o șuetă literară</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/3-la-un-taifas-livresc.html">
+          <div>
+            <h2 class="interview-title">La un taifas livresc</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/4-enciclopedia-eliberarii.html">
+          <div>
+            <h2 class="interview-title">Enciclopedia eliberării</h2>
+          </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/5-bibliotecar-in-tinda-raiului.html">
+          <div>
+            <h2 class="interview-title">Bibliotecar în tinda raiului</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/6-despre-athos.html">
+          <div>
+            <h2 class="interview-title">Despre Athos, „Muntele Sufletului”</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/7-cu-dor-de-athos-in-inima-si-n-gand.html">
+          <div>
+            <h2 class="interview-title">Cu „Dor de Athos” în inimă și-n gând</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/8-o-petala-de-iubire.html">
+          <div>
+            <h2 class="interview-title">O petală de iubire</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/9-iarasi-constantin-necula.html">
+          <div>
+            <h2 class="interview-title">Iarăși Constantin Necula</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/10-cativa-picuri-de-lumina.html">
+          <div>
+            <h2 class="interview-title">Câțiva picuri de lumină</h2>
+          </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/11-prolog.html">
+          <div>
+            <h2 class="interview-title">Oameni și cărți</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/12-spiritul-craciunului-este-dovada-ca-dumnezeu-salasluieste-in-noi.html">
+          <div>
+            <h2 class="interview-title">Spiritul Crăciunului este dovada că Dumnezeu sălășuiește în noi</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/14-draga-adi.html">
+          <div>
+            <h2 class="interview-title">Dragă Adi</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/15-reconfigurand-o-floare.html">
+          <div>
+            <h2 class="interview-title">Reconfigurând o floare</h2>
+          </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/16-zvon-de-lumina.html">
+          <div>
+            <h2 class="interview-title">Zvon de lumină</h2>
+           </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+      <li class="interview-card">
+        <a href="interviuri/17-calin-pintea-lansare-carte.html">
+          <div>
+            <h2 class="interview-title">Despre frumuseţea urcuşului</h2>
+          </div>
+          <span class="read-label">Citește</span>
+        </a>
+      </li>
+
+    </ul>
+  </main>
+
+  <script src="assets/switcher.js" defer></script>
+</body>
+</html>
