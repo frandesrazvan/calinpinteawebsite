@@ -17,6 +17,14 @@
     });
   }
 
+  /* ---------- Antet fix: umbră după ce pagina începe să se deruleze ---------- */
+  var hdr = document.querySelector('.s-header');
+  if (hdr) {
+    var onScroll = function () { hdr.classList.toggle('is-stuck', window.scrollY > 8); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   /* ---------- Mesaje scurte (linkuri încă necompletate) ---------- */
   var toastEl;
   function toast(msg) {

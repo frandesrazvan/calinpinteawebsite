@@ -2,7 +2,7 @@
 :root{
   --bg:#FFFFFF;--card:#FFFFFF;--soft:#F7F1F1;--ink:#22191B;--head-ink:#22191B;--muted:#6A5D60;
   --line:#EFE3E5;--line-strong:#DCC9CD;--accent:#6B1F2E;--accent-hover:#4A1420;--accent-ink:#FFFFFF;
-  --head-font:'Lora',Georgia,serif;--body-font:'Nunito Sans',system-ui,sans-serif;--head-weight:700;--brand-weight:700;--brand-size:25px;--tag-display:block;
+  --head-font:'Lora',Georgia,serif;--body-font:'Nunito Sans',system-ui,sans-serif;--head-weight:700;--brand-weight:700;--brand-size:32px;--tag-display:block;
   --radius:14px;--btn-radius:999px;--wrap:1200px;
   --header-bg:#FFFFFF;--footer-bg:#3A1019;--footer-ink:#E8CDD2;--footer-head:#FFFFFF;--footer-link:#FFFFFF;--footer-line:#3A1019;
   --nav-ink:#22191B;--nav-weight:700;
